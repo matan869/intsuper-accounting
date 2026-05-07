@@ -324,7 +324,7 @@
 <div class="container">
 
   <h1>Intsuper — Profit Calculator</h1>
-  <div class="subtitle">Calibrated with April 2026 full-month actuals: $402,191 processor charges, 5.53% blended fees, 28.80% COGS. Edit any yellow cell — everything updates live.</div>
+  <div class="subtitle">Calibrated with April 2026 QuickBooks actuals: $397,950 processor charges (PayPal at 0.31483 FX), 5.74% fees, 29.45% all-in COGS (product + shipping). Matches QB Net Operating Income of $19,861.</div>
 
   <div class="legend">
     <span class="legend-item"><span class="swatch editable"></span> Yellow = editable input</span>
@@ -385,7 +385,7 @@
     <div class="input-card large">
       <div class="input-label">📦 COGS Rate</div>
       <input type="text" id="input-cogs" inputmode="decimal">
-      <div class="input-hint">Supplier rate on gross orders. April actual: 28.80%.</div>
+      <div class="input-hint">All-in COGS: product + shipping/fulfillment. April QB actual: 29.45%.</div>
     </div>
     <div class="input-card large">
       <div class="input-label">📊 Blended ROAS (gross)</div>
@@ -400,17 +400,17 @@
     <div class="input-card">
       <div class="input-label">💳 Merchant Fees Rate</div>
       <input type="text" id="input-fees" inputmode="decimal">
-      <div class="input-hint">April blended: Stripe 5.71% + SP 5.39% + PP 4.95% = 5.53%. Should drop to ~5.0% in May (full Stripe contract).</div>
+      <div class="input-hint">% of net revenue. April QB actual: 5.74% ($21,980 / $382,829). Should drop to ~5.4% in May with full Stripe contract.</div>
     </div>
     <div class="input-card">
       <div class="input-label">🏢 Overhead (apps, monthly)</div>
       <input type="text" id="input-overhead" inputmode="decimal">
-      <div class="input-hint">Apps + SaaS ($11,398.83) + payroll tax ($9.21) = $11,408.04.</div>
+      <div class="input-hint">QB Other Admin ($12,239) + Marketing salaries ($720) + Bank ($8) = $12,967.</div>
     </div>
     <div class="input-card">
       <div class="input-label">👥 Salaries (monthly, base)</div>
       <input type="text" id="input-salaries" inputmode="decimal">
-      <div class="input-hint">Base salary before bonuses. April actual: $29,576.33.</div>
+      <div class="input-hint">QB salary base. April actual: $29,005 (total payroll w/ bonus = $29,987).</div>
     </div>
   </div>
 
@@ -425,7 +425,7 @@
     <div class="input-card small">
       <div class="input-label">Refund Rate</div>
       <input type="text" id="input-refunds" inputmode="decimal">
-      <div class="input-hint">% of net rev. April actual: 4.47% (refunds 3.91% + disputes 0.51%).</div>
+      <div class="input-hint">% of net rev. April QB actual: 3.95% (refunds + disputes net of FX).</div>
     </div>
     <div class="input-card small">
       <div class="input-label">Discount Rate (info)</div>
@@ -435,7 +435,7 @@
     <div class="input-card small">
       <div class="input-label">Bonus % (on salary)</div>
       <input type="text" id="input-bonus" inputmode="decimal">
-      <div class="input-hint">April actual: 3.32% ($981 / $29,576).</div>
+      <div class="input-hint">April QB actual: 3.38% ($981 bonus on $29,005 base).</div>
     </div>
   </div>
 
@@ -487,15 +487,15 @@
 // State — single source of truth
 // ============================================================
 const state = {
-  monthly: 402191,       // April 2026 actual — post-discount gross from processor reconciliation
-  cogs: 0.288,           // April actual: 28.80%
-  roas: 2.24,            // 2.24x (no ad spend reconciliation yet)
-  fees: 0.0553,          // April blended: Stripe 5.71% + SP 5.39% + PP 4.95% = 5.53%
-  overhead: 11408.04,    // $11,398.83 apps + $9.21 payroll tax
-  salaries: 29576.33,    // April actual base salaries
-  refunds: 0.0447,       // 4.47% of net (refunds $15,146 + disputes $2,049 = $17,195)
-  discounts: 0.0594,     // 5.94% of pre-discount gross — informational
-  bonus: 0.0332,         // April actual: $981 / $29,576 = 3.32%
+  monthly: 397950,       // April 2026 actual — corrected with PayPal FX 0.31483 (matches QB Sales)
+  cogs: 0.2945,          // Full COGS rate from QB: $117,180 / $397,950 (incl. product + shipping/fulfillment)
+  roas: 2.20,            // Implied: $397,950 / $180,625 ad spend
+  fees: 0.0574,          // QB Merchant Fees / QB Income: $21,980 / $382,601
+  overhead: 12967,       // QB Other Admin ($12,239) + Marketing ($720) + Bank ($8)
+  salaries: 29005.18,    // QB salaries base (implied: total / 1.0338)
+  refunds: 0.0395,       // Implied from QB structure
+  discounts: 0.0594,     // 5.94% — informational
+  bonus: 0.0338,         // QB bonus implied
   days: 30,
 };
 
@@ -794,7 +794,7 @@ function renderHints() {
 // Scenarios
 // ============================================================
 const scenarios = [
-  { name: '📊 April 2026 actuals',                          daily: 13406, cogs: 0.288, roas: 2.24, fees: 0.0553 },
+  { name: '📊 April 2026 actuals (QB-matched)',          daily: 13265, cogs: 0.2945, roas: 2.20, fees: 0.0574 },
   { name: '5% margin — Today\'s reality',                  daily: 13788, cogs: 0.289, roas: 2.18, fees: 0.0591 },
   { name: '10% margin — Stripe contract + small ROAS lift', daily: 13788, cogs: 0.289, roas: 2.40, fees: 0.055 },
   { name: '15% margin — COGS to 25% + ROAS 2.45x',          daily: 14000, cogs: 0.250, roas: 2.45, fees: 0.055 },
