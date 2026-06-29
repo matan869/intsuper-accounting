@@ -324,7 +324,7 @@
 <div class="container">
 
   <h1>Intsuper — Profit Calculator</h1>
-  <div class="subtitle">Calibrated with April 2026 QuickBooks actuals: $397,950 processor charges (PayPal at 0.31483 FX), 5.74% fees, 29.45% all-in COGS (product + shipping). Matches QB Net Operating Income of $19,861.</div>
+  <div class="subtitle">Calibrated with June 2026 (June 1-21) QuickBooks actuals: $335,509 income, 5.6% fees, 25.2% all-in COGS (product + shipping), at ROAS 2.03 (gross-sales basis). Reconciles to QB Net Operating Loss of -$6,693 (-2%).</div>
 
   <div class="legend">
     <span class="legend-item"><span class="swatch editable"></span> Yellow = editable input</span>
@@ -385,12 +385,12 @@
     <div class="input-card large">
       <div class="input-label">📦 COGS Rate</div>
       <input type="text" id="input-cogs" inputmode="decimal">
-      <div class="input-hint">All-in COGS: product + shipping/fulfillment. April QB actual: 29.45%.</div>
+      <div class="input-hint">All-in COGS: product + shipping/fulfillment. June QB actual (1-21): 25.2%.</div>
     </div>
     <div class="input-card large">
       <div class="input-label">📊 Blended ROAS (gross)</div>
       <input type="text" id="input-roas" inputmode="decimal">
-      <div class="input-hint" id="roas-hint">Gross Revenue ÷ Total Ad Spend. <span id="mer-display">MER: 44.6%</span></div>
+      <div class="input-hint" id="roas-hint">Revenue ÷ Ad Spend (post-discount basis). June 1.92x = 2.03x on pre-discount gross sales. <span id="mer-display">MER: 52.0%</span></div>
     </div>
   </div>
 
@@ -400,17 +400,17 @@
     <div class="input-card">
       <div class="input-label">💳 Merchant Fees Rate</div>
       <input type="text" id="input-fees" inputmode="decimal">
-      <div class="input-hint">% of net revenue. April QB actual: 5.74% ($21,980 / $382,829). Should drop to ~5.4% in May with full Stripe contract.</div>
+      <div class="input-hint">% of net revenue. June QB actual (1-21): 5.6% ($17,700 / $314,706).</div>
     </div>
     <div class="input-card">
       <div class="input-label">🏢 Overhead (apps, monthly)</div>
       <input type="text" id="input-overhead" inputmode="decimal">
-      <div class="input-hint">QB Other Admin ($12,239) + Marketing salaries ($720) + Bank ($8) = $12,967.</div>
+      <div class="input-hint">QB Other Admin ($13,118) + Marketing/media-buyer ($600) + Bank ($61) = $13,779.</div>
     </div>
     <div class="input-card">
       <div class="input-label">👥 Salaries (monthly, base)</div>
       <input type="text" id="input-salaries" inputmode="decimal">
-      <div class="input-hint">QB salary base. April actual: $29,005 (total payroll w/ bonus = $29,987).</div>
+      <div class="input-hint">June Salaries & Contractors total: $31,052 (incl. Yoni $5k; no separate bonus this month).</div>
     </div>
   </div>
 
@@ -425,17 +425,17 @@
     <div class="input-card small">
       <div class="input-label">Refund Rate</div>
       <input type="text" id="input-refunds" inputmode="decimal">
-      <div class="input-hint">% of net rev. April QB actual: 3.95% (refunds + disputes net of FX).</div>
+      <div class="input-hint">% of net rev. June actual (1-21): ~6.2% (refunds + chargebacks/disputes).</div>
     </div>
     <div class="input-card small">
       <div class="input-label">Discount Rate (info)</div>
       <input type="text" id="input-discounts" inputmode="decimal">
-      <div class="input-hint">April actual: 5.94%. Real lever — lowering raises revenue (holds pre-discount constant).</div>
+      <div class="input-hint">June actual: 5.74%. Real lever — lowering raises revenue (holds pre-discount constant).</div>
     </div>
     <div class="input-card small">
       <div class="input-label">Bonus % (on salary)</div>
       <input type="text" id="input-bonus" inputmode="decimal">
-      <div class="input-hint">April QB actual: 3.38% ($981 bonus on $29,005 base).</div>
+      <div class="input-hint">June: 0% (no separate bonus line). April was 3.38%.</div>
     </div>
   </div>
 
@@ -475,7 +475,7 @@
   </div>
 
   <div class="footer-note">
-    Built April 28, 2026  •  Updated May 4 with April 2026 full-month actuals: $402,191 charges across Stripe ($278,086) + Shopify Pay ($50,054) + PayPal ($74,051). Reconciles to Shopify dashboard within 0.82%.
+    Built April 28, 2026  •  Updated May 4 with April 2026 full-month actuals: $402,191 charges across Stripe ($278,086) + Shopify Pay ($50,054) + PayPal ($74,051). Reconciles to Shopify dashboard within 0.82%. • Updated June 29, 2026 with June 1-21 actuals: $335,509 income, 25.2% COGS, 5.6% fees, ROAS 2.03 (gross). Reconciles to QB Net Operating Loss of -$6,693 (-2%).
   </div>
 
 </div>
@@ -487,15 +487,15 @@
 // State — single source of truth
 // ============================================================
 const state = {
-  monthly: 397950,       // April 2026 actual — corrected with PayPal FX 0.31483 (matches QB Sales)
-  cogs: 0.2945,          // Full COGS rate from QB: $117,180 / $397,950 (incl. product + shipping/fulfillment)
-  roas: 2.20,            // Implied: $397,950 / $180,625 ad spend
-  fees: 0.0574,          // QB Merchant Fees / QB Income: $21,980 / $382,601
-  overhead: 12967,       // QB Other Admin ($12,239) + Marketing ($720) + Bank ($8)
-  salaries: 29005.18,    // QB salaries base (implied: total / 1.0338)
-  refunds: 0.0395,       // Implied from QB structure
-  discounts: 0.0594,     // 5.94% — informational
-  bonus: 0.0338,         // QB bonus implied
+  monthly: 335509,       // June 2026 (1-21) actual — QB Total Gross Revenue (post-discount, before refunds)
+  cogs: 0.25201,         // All-in COGS from QB: $84,553 / $335,509 (incl. product + shipping/fulfillment)
+  roas: 1.9248,          // = monthly / $174,315 ad spend (post-discount basis; = 2.03x on pre-discount gross sales)
+  fees: 0.056242,        // QB Merchant Fees $17,700 / net rev $314,706
+  overhead: 13779,       // QB Other Admin ($13,118) + Marketing/media-buyer ($600) + Bank ($61)
+  salaries: 31051.89,    // June Salaries & Contractors total (incl. Yoni $5k, Lilach, CS, Product, Creatives, Video, VO, Web)
+  refunds: 0.0661,       // June refunds + chargebacks $20,803 (=6.2% of net rev)
+  discounts: 0.0574,     // 5.74% — informational
+  bonus: 0,              // no separate bonus line in June forecast
   days: 30,
 };
 
@@ -794,6 +794,7 @@ function renderHints() {
 // Scenarios
 // ============================================================
 const scenarios = [
+  { name: '📊 June 2026 actuals (1-21, QB-matched)',       daily: 11184, cogs: 0.252, roas: 1.925, fees: 0.0562 },
   { name: '📊 April 2026 actuals (QB-matched)',          daily: 13265, cogs: 0.2945, roas: 2.20, fees: 0.0574 },
   { name: '5% margin — Today\'s reality',                  daily: 13788, cogs: 0.289, roas: 2.18, fees: 0.0591 },
   { name: '10% margin — Stripe contract + small ROAS lift', daily: 13788, cogs: 0.289, roas: 2.40, fees: 0.055 },
