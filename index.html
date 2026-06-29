@@ -944,6 +944,13 @@ renderResults();
     setTimeout(() => input.focus(), 100);
   }
 
+  // Auto-unlock from URL fragment (#k=...) — fragment never reaches GitHub's server
+  const _hk = location.hash.match(/[#&]k=([^&]+)/);
+  if (_hk) {
+    input.value = decodeURIComponent(_hk[1]);
+    tryUnlock();
+    history.replaceState(null, '', location.pathname + location.search);
+  }
   btn.onclick = tryUnlock;
   toggle.onclick = lockPage;
   input.addEventListener('keydown', e => {
